@@ -13,3 +13,6 @@
 *.zip
 *.rar
 *.tar.gz
+
+tests
+.svn
