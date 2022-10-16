@@ -1,0 +1,131 @@
+<mxStylesheet>
+	<include name="/com/mxgraph/examples/swing/resources/basic-style.xml"/>
+	<add as="defaultVertex" extend="defaultVertex">
+		<add as="fillColor" value="#909399"/>
+		<add as="strokeColor" value="#2d3237"/>
+		<add as="fontSize" value="21"/>
+		<add as="fontColor" value="#FFFFFF"/>
+		<add as="fontFamily" value="Verdana"/>
+	</add>
+	<add as="defaultEdge" extend="defaultEdge">
+		<add as="labelBackgroundColor" value="white"/>
+		<add as="rounded" value="1"/>
+		<add as="edgeStyle" value="elbowEdgeStyle"/>
+		<add as="strokeColor" value="#5d65df"/>
+		<add as="fontSize" value="11"/>
+		<add as="fontColor" value="#1d258f"/>
+		<add as="fontFamily" value="Verdana"/>
+	</add>
+	<add as="label">
+		<add as="shape" value="label"/>
+		<add as="perimeter" value="rectanglePerimeter"/>
+		<add as="fontStyle" value="1"/>
+		<add as="align" value="left"/>
+		<add as="verticalAlign" value="bottom"/>
+		<add as="spacing" value="2"/>
+		<add as="spacingLeft" value="40"/>
+		<add as="imageWidth" value="32"/>
+		<add as="imageHeight" value="32"/>
+		<add as="rounded" value="1"/>
+		<add as="shadow" value="1"/>
+		<add as="glass" value="1"/>
+	</add>
+	<add as="entity">
+		<add as="edgeStyle" value="entityRelationEdgeStyle"/>
+	</add>
+	<add as="vertical">
+		<add as="elbow" value="vertical"/>
+	</add>
+	<add as="straight">
+		<add as="shape" value="connector"/>
+		<add as="endArrow" value="classic"/>
+		<add as="edgeStyle" value="none"/>
+	</add>
+	<add as="arrow">
+		<add as="shape" value="arrow"/>
+	</add>
+	<add as="swimlane">
+		<add as="shape" value="swimlane"/>
+		<add as="fillColor" value="#909399"/>
+		<add as="fontSize" value="18"/>
+		<add as="fontStyle" value="1"/>
+		<add as="startSize" value="23"/>
+		<add as="fontFamily" value="Verdana"/>
+	</add>
+	<add as="actSwimlane">
+		<add as="shape" value="swimlane"/>
+		<add as="fillColor" value="#ebeef5"/>
+		<add as="fontSize" value="18"/>
+		<add as="fontColor" value="black"/>
+		<add as="fontStyle" value="1"/>
+		<add as="startSize" value="23"/>
+		<add as="fontFamily" value="Verdana"/>
+	</add>
+	<add as="timeSwimlane">
+		<add as="shape" value="swimlane"/>
+		<add as="fillColor" value="#f2f6fc"/>
+		<add as="fontSize" value="18"/>
+		<add as="fontColor" value="black"/>
+		<add as="fontStyle" value="1"/>
+		<add as="startSize" value="23"/>
+		<add as="fontFamily" value="Verdana"/>
+	</add>
+	<add as="refPort">
+		<add as="shape" value="ellipse"/>
+		<add as="fillColor" value="#409EFF"/>
+	</add>
+	<add as="actRefPort">
+		<add as="shape" value="ellipse"/>
+		<add as="fillColor" value="#409EFF"/>
+	</add>
+	<add as="timeRefPort">
+		<add as="shape" value="rectangle"/>
+		<add as="fillColor" value="#67C23A"/>
+	</add>
+	<add as="beforePort">
+		<add as="shape" value="triangle"/>
+		<add as="fillColor" value="#e6a23c"/>
+	</add>
+	<add as="afterPort">
+		<add as="shape" value="triangle"/>
+		<add as="fillColor" value="#E6A23C"/>
+	</add>
+	<add as="group">
+		<add as="verticalAlign" value="top"/>
+		<add as="dashed" value="1"/>
+		<add as="opacity" value="50"/>
+	</add>
+	<add as="ellipse">
+		<add as="shape" value="ellipse"/>
+		<add as="perimeter" value="ellipsePerimeter"/>
+	</add>
+<!--	<add as="rhombus">-->
+<!--		<add as="shape" value="rhombus"/>-->
+<!--		<add as="perimeter" value="rhombusPerimeter"/>-->
+<!--	</add>-->
+	<add as="triangle">
+		<add as="shape" value="triangle"/>
+		<add as="perimeter" value="trianglePerimeter"/>
+	</add>
+	<add as="line">
+		<add as="shape" value="line"/>
+		<add as="strokeWidth" value="4"/>
+		<add as="labelBackgroundColor" value="white"/>
+		<add as="verticalAlign" value="top"/>
+		<add as="spacingTop" value="8"/>
+	</add>
+	<add as="image">
+		<add as="shape" value="image"/>
+		<add as="fontSize" value="18"/>
+		<add as="fontColor" value="black"/>
+		<add as="verticalLabelPosition" value="bottom"/>
+		<add as="verticalAlign" value="center"/>
+		<add as="fontFamily" value="Verdana"/>
+	</add>
+	<add as="roundImage" extend="image">
+		<add as="perimeter" value="ellipsePerimeter"/>
+	</add>
+	<add as="rhombusImage" extend="image">
+		<add as="perimeter" value="rhombusPerimeter"/>
+	</add>
+</mxStylesheet>

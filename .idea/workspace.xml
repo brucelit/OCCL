@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="01397bf6-a845-4bc3-b02d-3f90a719e63b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/OCELStandard.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ivysettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ivysettings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/processmining/ocel/flattening/Flattening.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/processmining/ocel/flattening/Flattening.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/processmining/ocel/ocelobjects/OcelEventLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/processmining/ocel/ocelobjects/OcelEventLog.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2G7r8WEGuNKXomBU2BvNeMo4ulg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "H:/PromTest/Packages/OCELStandard/src/com/mxgraph/resources"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.processmining.ocel.occl" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\PromTest\Packages\OCELStandard\src\com\mxgraph\resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.processmining.ocel.occl" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ProM with UITopia (OCELStandard)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="org.processmining.contexts.uitopia.UI" />
+      <module name="OCELStandard" />
+      <option name="VM_PARAMETERS" value="-ea -Xmx4G -XX:MaxPermSize=256m -Djava.library.path=. -Djava.util.Arrays.useLegacyMergeSort=true" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\59815\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="H:\PromTest\Packages\OCELStandard" />
+          <option name="myCopyRoot" value="H:\PromTest\Packages\OCELStandard" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="H:\PromTest\Packages\OCELStandard" />
+          <option name="myCopyRoot" value="H:\PromTest\Packages\OCELStandard\.settings" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="H:\PromTest\Packages\OCELStandard" />
+          <option name="myCopyRoot" value="H:\PromTest\Packages\OCELStandard\tests\libs-external" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="H:\PromTest\Packages\OCELStandard" />
+          <option name="myCopyRoot" value="H:\PromTest\Packages\OCELStandard" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="H:\PromTest\Packages\OCELStandard" />
+          <option name="myCopyRoot" value="H:\PromTest\Packages\OCELStandard\.settings" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="H:\PromTest\Packages\OCELStandard" />
+          <option name="myCopyRoot" value="H:\PromTest\Packages\OCELStandard\tests\libs-external" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="01397bf6-a845-4bc3-b02d-3f90a719e63b" name="Changes" comment="" />
+      <created>1665750303198</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665750303198</updated>
+    </task>
+    <servers />
+  </component>
+</project>
