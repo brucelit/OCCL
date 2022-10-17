@@ -18,7 +18,7 @@ public class MiddleWare {
 
     public ArrayList connLst = new ArrayList();
 
-    public HashMap<String, String> connType = new HashMap<>();
+    public String connType = "";
 
     public HashMap getPortParent() {
         return portParent;
@@ -37,6 +37,7 @@ public class MiddleWare {
     public String targetParentValue;
     public String refParentValue;
 
+    public String objStateToStateRelation;
     /**
      constructor method
     **/
@@ -98,9 +99,9 @@ public class MiddleWare {
         this.tarPortId = tarPortId;
     }
 
-    public void setConnType(String id, String selectedConnType) {
-        connType.put(id,selectedConnType);
-    }
+//    public void setConnType(String id, String selectedConnType) {
+//        connType.put(id,selectedConnType);
+//    }
 
     /**
      * the entity exist list

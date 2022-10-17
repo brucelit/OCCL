@@ -1,36 +1,10 @@
 /**
  * Copyright (c) 2006-2012, JGraph Ltd */
-package com.mxgraph.examples.swing.editor;
+package org.processmining.ocel.occl;
 
-import static com.mxgraph.swing.mxGraphComponent.DEFAULT_PAGESCALE;
-
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.print.PageFormat;
-import java.net.URL;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-
-import org.w3c.dom.Document;
-
+import com.mxgraph.examples.swing.editor.BasicGraphEditor;
+import com.mxgraph.examples.swing.editor.EditorPalette;
+import com.mxgraph.examples.swing.editor.MiddleWare;
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
@@ -39,14 +13,25 @@ import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.util.mxGraphTransferable;
 import com.mxgraph.swing.util.mxSwingConstants;
-import com.mxgraph.util.mxConstants;
-import com.mxgraph.util.mxEvent;
-import com.mxgraph.util.mxEventObject;
+import com.mxgraph.util.*;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
-import com.mxgraph.util.mxPoint;
-import com.mxgraph.util.mxResources;
-import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxGraph;
+import org.w3c.dom.Document;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.print.PageFormat;
+import java.io.IOException;
+import java.net.URL;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.mxgraph.swing.mxGraphComponent.DEFAULT_PAGESCALE;
 
 
 public class GraphEditor extends BasicGraphEditor
@@ -108,7 +93,7 @@ public class GraphEditor extends BasicGraphEditor
 	/**
 	 * 
 	 */
-	public GraphEditor(String appTitle,List<String> objectTypes, mxGraphComponent component) {
+	public GraphEditor(String appTitle, List<String> objectTypes, mxGraphComponent component) {
 		super(appTitle, objectTypes, component);
 		final mxGraph graph = graphComponent.getGraph();
 
@@ -568,11 +553,11 @@ public class GraphEditor extends BasicGraphEditor
 			return ports;
 		}
 
-		public void setDialogForActivity(Object [] cellToAdd){
+		public void setDialogForActivity(Object [] cellToAdd) throws IOException {
 			JDialog dialog = new JDialog();
 			dialog.setModal(true);
 			dialog.setTitle("Activity setting");
-			dialog.setSize(new Dimension(500,350));
+			dialog.setSize(new Dimension(500,400));
 			dialog.setLocationRelativeTo(null);  // set to the center of the screen
 
 			JTabbedPane tab = new JTabbedPane();
@@ -611,6 +596,21 @@ public class GraphEditor extends BasicGraphEditor
 			Box hBox_waiting = Box.createHorizontalBox();
 			Box hBox_service = Box.createHorizontalBox();
 			Box hBox_soujourn = Box.createHorizontalBox();
+			Box hBox_flow = Box.createHorizontalBox();
+
+
+			JRadioButton radioBtn01 = new JRadioButton();
+			JRadioButton radioBtn02 = new JRadioButton();
+			JRadioButton radioBtn03 = new JRadioButton();
+			JRadioButton radioBtn04 = new JRadioButton();
+			JRadioButton radioBtn05 = new JRadioButton();
+
+			ButtonGroup btnGroup = new ButtonGroup();
+			btnGroup.add(radioBtn01);
+			btnGroup.add(radioBtn02);
+			btnGroup.add(radioBtn03);
+			btnGroup.add(radioBtn04);
+			btnGroup.add(radioBtn05);
 
 			JComboBox<String> jcb_waiting_symbol = new JComboBox<String>();
 			for (String ts: timeSymbol) {
@@ -630,10 +630,14 @@ public class GraphEditor extends BasicGraphEditor
 			jcb_waiting_time.setMaximumSize(new Dimension(100, 20));
 			jcb_waiting_time.setPreferredSize(new Dimension(100, 20));
 			JLabel jlb_waiting = new JLabel("Waiting time:");
+			jlb_waiting.setToolTipText("The time duration of the waiting time for the current activity");
+
 			JTextField jtf_waiting = new JTextField();
 			jtf_waiting.setSize(new Dimension(100, 20));
 			jtf_waiting.setMaximumSize(new Dimension(100, 20));
 			jtf_waiting.setPreferredSize(new Dimension(100, 20));
+
+			hBox_waiting.add(radioBtn01);
 			hBox_waiting.add(jlb_waiting);
 			hBox_waiting.add(jcb_waiting_symbol);
 			hBox_waiting.add(jtf_waiting);
@@ -649,6 +653,12 @@ public class GraphEditor extends BasicGraphEditor
 				jcb_service_time.addItem(unit);
 			}
 
+//			Image img = ImageIO.read(getClass().getResource("/com/mxgraph/examples/swing/images/question.jpg"));
+//			JButton jb_service = new JButton(new ImageIcon(img));
+//			jb_service.setSize(new Dimension(10, 10));
+//			jb_service.setMaximumSize(new Dimension(10, 10));
+//			jb_service.setPreferredSize(new Dimension(10, 10));
+
 			jcb_service_symbol.setSize(new Dimension(100, 20));
 			jcb_service_symbol.setMaximumSize(new Dimension(100, 20));
 			jcb_service_symbol.setPreferredSize(new Dimension(100, 20));
@@ -656,10 +666,13 @@ public class GraphEditor extends BasicGraphEditor
 			jcb_service_time.setMaximumSize(new Dimension(100, 20));
 			jcb_service_time.setPreferredSize(new Dimension(100, 20));
 			JLabel jlb_service = new JLabel("Service time:");
+			jlb_service.setToolTipText("The time duration of the current activity");
 			JTextField jtf_service = new JTextField();
 			jtf_service.setSize(new Dimension(100, 20));
 			jtf_service.setMaximumSize(new Dimension(100, 20));
 			jtf_service.setPreferredSize(new Dimension(100, 20));
+
+			hBox_service.add(radioBtn02);
 			hBox_service.add(jlb_service);
 			hBox_service.add(jcb_service_symbol);
 			hBox_service.add(jtf_service);
@@ -675,31 +688,94 @@ public class GraphEditor extends BasicGraphEditor
 				jcb_soujourn_time.addItem(unit);
 			}
 
-			jcb_soujourn_symbol.setSize(new Dimension(100, 20));
-			jcb_soujourn_symbol.setMaximumSize(new Dimension(100, 20));
-			jcb_soujourn_symbol.setPreferredSize(new Dimension(100, 20));
+			jcb_soujourn_symbol.setSize(new Dimension(80, 20));
+			jcb_soujourn_symbol.setMaximumSize(new Dimension(80, 20));
+			jcb_soujourn_symbol.setPreferredSize(new Dimension(80, 20));
 			jcb_soujourn_time.setSize(new Dimension(100, 20));
 			jcb_soujourn_time.setMaximumSize(new Dimension(100, 20));
 			jcb_soujourn_time.setPreferredSize(new Dimension(100, 20));
 			JLabel jlb_soujourn = new JLabel("Soujourn time:");
+			jlb_soujourn.setToolTipText("The time duration from the end of previous activity to current activity");
 			JTextField jtf_soujourn = new JTextField();
 			jtf_soujourn.setSize(new Dimension(100, 20));
 			jtf_soujourn.setMaximumSize(new Dimension(100, 20));
 			jtf_soujourn.setPreferredSize(new Dimension(100, 20));
+
+			hBox_soujourn.add(radioBtn03);
 			hBox_soujourn.add(jlb_soujourn);
 			hBox_soujourn.add(jcb_soujourn_symbol);
 			hBox_soujourn.add(jtf_soujourn);
 			hBox_soujourn.add(jcb_soujourn_time);
 
-			vBox2.add(Box.createVerticalStrut(30));
 
+			JComboBox<String> jcb_flow_symbol = new JComboBox<String>();
+			for (String ts: timeSymbol) {
+				jcb_flow_symbol.addItem(ts);
+			}
+
+			JComboBox<String> jcb_flow_time = new JComboBox<String>();
+			for (String unit: timeUnit) {
+				jcb_flow_time.addItem(unit);
+			}
+
+			jcb_flow_symbol.setSize(new Dimension(100, 20));
+			jcb_flow_symbol.setMaximumSize(new Dimension(100, 20));
+			jcb_flow_symbol.setPreferredSize(new Dimension(100, 20));
+			jcb_flow_time.setSize(new Dimension(100, 20));
+			jcb_flow_time.setMaximumSize(new Dimension(100, 20));
+			jcb_flow_time.setPreferredSize(new Dimension(100, 20));
+			JLabel jlb_flow = new JLabel("Flow time:");
+			jlb_flow.setToolTipText("The time duration from the end of current activity to the next activity");
+			JTextField jtf_flow = new JTextField();
+			jtf_flow.setSize(new Dimension(100, 20));
+			jtf_flow.setMaximumSize(new Dimension(100, 20));
+			jtf_flow.setPreferredSize(new Dimension(100, 20));
+
+			hBox_flow.add(radioBtn04);
+			hBox_flow.add(jlb_flow);
+			hBox_flow.add(jcb_flow_symbol);
+			hBox_flow.add(jtf_flow);
+			hBox_flow.add(jcb_flow_time);
+
+			Box hBox_count = Box.createHorizontalBox();
+			JComboBox<String> jcb_count_symbol = new JComboBox<String>();
+			for (String ts: timeSymbol) {
+				jcb_count_symbol.addItem(ts);
+			}
+			jcb_count_symbol.addItem("=");
+
+			jcb_count_symbol.setSize(new Dimension(100, 20));
+			jcb_count_symbol.setMaximumSize(new Dimension(100, 20));
+			jcb_count_symbol.setPreferredSize(new Dimension(100, 20));
+			JLabel jlb_count = new JLabel("Activity count:");
+			jlb_count.setToolTipText("The number of activity in the trace.");
+			JTextField jtf_count = new JTextField();
+			jtf_count.setSize(new Dimension(100, 20));
+			jtf_count.setMaximumSize(new Dimension(100, 20));
+			jtf_count.setPreferredSize(new Dimension(100, 20));
+			hBox_count.add(radioBtn05);
+
+			hBox_count.add(jlb_count);
+			hBox_count.add(jcb_count_symbol);
+			hBox_count.add(jtf_count);
+
+
+			vBox2.add(Box.createVerticalStrut(10));
 			vBox2.add(hBox_waiting);
 			vBox2.add(Box.createVerticalStrut(30));
-
 			vBox2.add(hBox_service);
 			vBox2.add(Box.createVerticalStrut(30));
-
 			vBox2.add(hBox_soujourn);
+			vBox2.add(Box.createVerticalStrut(30));
+			vBox2.add(hBox_flow);
+			vBox2.add(Box.createVerticalStrut(30));
+			vBox2.add(hBox_count);
+
+			vBox2.setSize(new Dimension(480, 350));
+			vBox2.setMaximumSize(new Dimension(480, 400));
+			vBox2.setPreferredSize(new Dimension(480, 400));
+
+
 
 			tab.addTab("Advanced", null, vBox2, "Advanced settings");
 

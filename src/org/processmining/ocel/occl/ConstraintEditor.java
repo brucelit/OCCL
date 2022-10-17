@@ -1,8 +1,8 @@
 package org.processmining.ocel.occl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.mxgraph.examples.swing.editor.MiddleWare;
 import org.deckfour.xes.model.*;
@@ -11,11 +11,9 @@ import org.processmining.contexts.uitopia.UIPluginContext;
 import org.processmining.contexts.uitopia.annotations.UITopiaVariant;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.framework.plugin.annotations.PluginVariant;
-import org.processmining.framework.plugin.events.Logger;
 import org.processmining.framework.util.ui.wizard.ListWizard;
 import org.processmining.framework.util.ui.wizard.ProMWizardDisplay;
 import org.processmining.framework.util.ui.wizard.ProMWizardStep;
-import org.processmining.ocel.flattening.FlatteningWizardParameters;
 import org.processmining.ocel.ocelobjects.OcelEvent;
 import org.processmining.ocel.ocelobjects.OcelEventLog;
 import org.processmining.ocel.ocelobjects.OcelObject;
@@ -30,7 +28,7 @@ public class ConstraintEditor {
 
 	@PluginVariant(requiredParameterLabels = {0})
 	@UITopiaVariant(affiliation = "PADS RWTH", author = "Tian", email = "tian.li@pads.rwth-aachen.de")
-	public ViolatedSet CheckOCELConstraints(UIPluginContext context, OcelEventLog ocel) {
+	public ViolatedSet CheckOCELConstraints(UIPluginContext context, OcelEventLog ocel) throws ParseException {
 
 		MiddleWare mw = MiddleWare.getInstance();
 
@@ -66,9 +64,28 @@ public class ConstraintEditor {
 			//			case "unary response":
 //				return getUnaryResponseRelation(context);
 			default:
-				ObjViolationChecker objViolationChecker = new ObjViolationChecker(ocel,"items", 1, "pick item", "ObjectCountWithRefAct");
-				ViolatedSet v2 = objViolationChecker.getObjCountWithRefAct(context);
-				return v2;
+				ObjToObjOrderChecker o1 = new ObjToObjOrderChecker(
+						ocel,
+						"orders","items",
+						20,
+						20,
+						"objStateToStateResponse",
+						"greaterOrEqualTo");
+//				XLog log1= flatten(ocel, "products");
+//				XLog log2= flatten(ocel, "orders");
+//
+//				ObjToObjRelationChecker o1 = new ObjToObjRelationChecker(
+//						log1,
+//						log2,
+//						ocel,
+//						"items",
+//						"orders",
+//						"coBirth");
+				//				SingleActChecker s1 = new SingleActChecker(log1,"pick item");
+//				ViolatedSet v = s1.checkWaitingTimeForAct(context);
+//				ObjToObjRelationChecker objViolationChecker = new ObjToObjRelationChecker(ocel,"items", 1, "pick item", "ObjectCountWithoutRefAct", "greaterThan");
+//				ViolatedSet v2 = objViolationChecker.checkObjCount(context);
+				return o1.getObjOrderWithRefAct(context);
 		}
 	}
 
@@ -101,6 +118,7 @@ public class ConstraintEditor {
 
 		return log;
 	}
+
 
 
 

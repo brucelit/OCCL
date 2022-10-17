@@ -856,17 +856,51 @@ public class mxConnectionHandler extends mxMouseAdapter
 						}
 
 						e.consume();
+
 						if (refPortType.equals("portActRef") && targetPortType.equals("portActRef")) {
 							// set up a dialog for the connection
 							mw.actRefObj = (String) c1.getParent().getParent().getValue();
 						}
+
+						// obj to obj state ordering
+						else if ((refPortType.equals("portTypeObjBefore") && targetPortType.equals("portTypeObjAfter"))
+								|| refPortType.equals("portTypeObjAfter") && targetPortType.equals("portTypeObjBefore")) {
+							// set up a dialog for the activity ordering relation
+							mw.refParentValue = refParentValue;
+							mw.targetParentValue = targetParentValue;
+							mw.connType = "objStateToStateOrder";
+							setDialogForObjToObjOrder(refParentValue, targetParentValue);
+						}
+
+						// act to act state ordering
 						else if ((refPortType.equals("portTypeActBefore") && targetPortType.equals("portTypeActAfter"))
 								|| refPortType.equals("portTypeActAfter") && targetPortType.equals("portTypeActBefore")) {
 							// set up a dialog for the activity ordering relation
 							mw.refParentValue = refParentValue;
 							mw.targetParentValue = targetParentValue;
+							mw.connType = "actToActOrder";
 							setDialogForActToActOrder(refParentValue, targetParentValue);
 						}
+
+						// act to obj state ordering
+						else if ((refPortType.equals("portTypeActBefore") && targetPortType.equals("portTypeObjAfter"))
+								|| refPortType.equals("portTypeActAfter") && targetPortType.equals("portTypeObjBefore")) {
+							// set up a dialog for the activity ordering relation
+							mw.refParentValue = refParentValue;
+							mw.targetParentValue = targetParentValue;
+							mw.connType = "actToObjStateOrder";
+							setDialogForActToActOrder(refParentValue, targetParentValue);
+						}
+
+						// act to obj period ordering
+//						else if ((refPortType.equals("portTypeActBefore") && targetPortType.equals("portTypeObjAfter"))
+//								|| refPortType.equals("portTypeActAfter") && targetPortType.equals("portTypeObjBefore")) {
+//							// set up a dialog for the activity ordering relation
+//							mw.refParentValue = refParentValue;
+//							mw.targetParentValue = targetParentValue;
+//							mw.connType = "actToObjStateOrder";
+//							setDialogForActToActOrder(refParentValue, targetParentValue);
+//						}
 						else{
 							return;
 						}
@@ -912,6 +946,232 @@ public class mxConnectionHandler extends mxMouseAdapter
 		jcb.addItem("----------------");
 		jcb.addItem("not direct after");
 		jcb.addItem("not response");
+		jcb.setSize(new Dimension(120,20));
+		jcb.setMaximumSize(new Dimension(120,20));
+		jcb.setPreferredSize(new Dimension(120,20));
+
+		hBox1.add(jcb);
+		hBox1.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		// info box that contain two object
+		infoBox.add(jb1);
+
+		JLabel jl1 = new JLabel("———————————");
+		jl1.setSize(new Dimension(140,20));
+		jl1.setMinimumSize(new Dimension(140,20));
+		jl1.setMaximumSize(new Dimension(140,20));
+		jl1.setPreferredSize(new Dimension(140,20));
+		infoBox.add(jl1);
+		infoBox.add(jb2);
+
+		// add a confirm button
+		JButton jbConfirm = new JButton("Confirm");
+		jbConfirm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dialog.dispose();
+				mw.objStateToStateRelation = (String) jcb.getSelectedItem();
+			}
+		});
+
+		// add a cancel button
+		JButton jbCancel = new JButton("Cancel");
+		jbCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dialog.dispose();
+			}
+		});
+		vBox.add(Box.createVerticalStrut(10));
+		vBox.add(hBox1);
+		vBox.add(infoBox);
+		tab.addTab("Basics", null, vBox, "Basic setting");
+
+		Box vBox2 = Box.createVerticalBox();
+
+		JComboBox<String> jcb_waiting_symbol = new JComboBox<String>();
+		for (String ts: timeSymbol) {
+			jcb_waiting_symbol.addItem(ts);
+		}
+		jcb_waiting_symbol.addItem("=");
+
+		JComboBox<String> jcb_waiting_time = new JComboBox<String>();
+		for (String unit: timeUnit) {
+			jcb_waiting_time.addItem(unit);
+		}
+
+		Box hBox_waiting = Box.createHorizontalBox();
+		jcb_waiting_symbol.setSize(new Dimension(50, 20));
+		jcb_waiting_symbol.setMaximumSize(new Dimension(50, 20));
+		jcb_waiting_symbol.setPreferredSize(new Dimension(50, 20));
+		jcb_waiting_time.setSize(new Dimension(70, 20));
+		jcb_waiting_time.setMaximumSize(new Dimension(70, 20));
+		jcb_waiting_time.setPreferredSize(new Dimension(70, 20));
+		JLabel jlb_waiting = new JLabel("time gap:");
+		JTextField jtf_waiting = new JTextField();
+		jtf_waiting.setSize(new Dimension(30, 20));
+		jtf_waiting.setMaximumSize(new Dimension(30, 20));
+		jtf_waiting.setPreferredSize(new Dimension(30, 20));
+		hBox_waiting.add(jlb_waiting);
+		hBox_waiting.add(Box.createHorizontalStrut(5));
+		hBox_waiting.add(jcb_waiting_symbol);
+		hBox_waiting.add(Box.createHorizontalStrut(5));
+		hBox_waiting.add(jtf_waiting);
+		hBox_waiting.add(Box.createHorizontalStrut(5));
+		hBox_waiting.add(jcb_waiting_time);
+		vBox2.add(Box.createVerticalStrut(20));
+		vBox2.add(hBox_waiting);
+
+		tab.addTab("Advanced", null, vBox2, "Advanced setting");
+		Box vBox3 = Box.createVerticalBox();
+
+		vBox3.add(tab);
+		Box hBoxConfirm = Box.createHorizontalBox();
+		hBoxConfirm.add(jbConfirm);
+		hBoxConfirm.add(Box.createHorizontalStrut(20));
+		hBoxConfirm.add(jbConfirm);
+		hBoxConfirm.setAlignmentX(Component.CENTER_ALIGNMENT);
+		vBox3.add(hBoxConfirm);
+		// add vBox3 to dialog
+		dialog.add(vBox3);
+	}
+
+	public void setDialogForActToObjOrder(String refObj, String targetObj){
+		JDialog dialog = new JDialog();
+		dialog.setTitle("Activity-Object order setting");
+		dialog.setSize(new Dimension(500,250));
+		dialog.setVisible(true);
+		dialog.setLocationRelativeTo(null);  // set to the center of the screen
+
+		JTabbedPane tab = new JTabbedPane();
+		Box vBox = Box.createVerticalBox();
+		Box infoBox = Box.createHorizontalBox();
+
+		JButton jb1 = new JButton(refObj);
+		jb1.setEnabled(false);
+		JButton jb2 = new JButton(targetObj);
+		jb2.setEnabled(false);
+		Box hBox1 = Box.createHorizontalBox();
+
+		JComboBox<String> jcb = new JComboBox<String>();
+		jcb.addItem("response");
+		jcb.addItem("unary response");
+		jcb.addItem("----------------");
+		jcb.addItem("not direct after");
+		jcb.addItem("not response");
+		jcb.setSize(new Dimension(120,20));
+		jcb.setMaximumSize(new Dimension(120,20));
+		jcb.setPreferredSize(new Dimension(120,20));
+
+		hBox1.add(jcb);
+		hBox1.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		// info box that contain two object
+		infoBox.add(jb1);
+
+		JLabel jl1 = new JLabel("———————————");
+		jl1.setSize(new Dimension(140,20));
+		jl1.setMinimumSize(new Dimension(140,20));
+		jl1.setMaximumSize(new Dimension(140,20));
+		jl1.setPreferredSize(new Dimension(140,20));
+		infoBox.add(jl1);
+		infoBox.add(jb2);
+
+		// add a confirm button
+		JButton jbConfirm = new JButton("Confirm");
+		jbConfirm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dialog.dispose();
+				mw.objStateToStateRelation = (String) jcb.getSelectedItem();
+			}
+		});
+
+		// add a cancel button
+		JButton jbCancel = new JButton("Cancel");
+		jbCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dialog.dispose();
+			}
+		});
+		vBox.add(Box.createVerticalStrut(10));
+		vBox.add(hBox1);
+		vBox.add(infoBox);
+		tab.addTab("Basics", null, vBox, "Basic setting");
+
+		Box vBox2 = Box.createVerticalBox();
+
+		JComboBox<String> jcb_waiting_symbol = new JComboBox<String>();
+		for (String ts: timeSymbol) {
+			jcb_waiting_symbol.addItem(ts);
+		}
+		jcb_waiting_symbol.addItem("=");
+
+		JComboBox<String> jcb_waiting_time = new JComboBox<String>();
+		for (String unit: timeUnit) {
+			jcb_waiting_time.addItem(unit);
+		}
+
+		Box hBox_waiting = Box.createHorizontalBox();
+		jcb_waiting_symbol.setSize(new Dimension(50, 20));
+		jcb_waiting_symbol.setMaximumSize(new Dimension(50, 20));
+		jcb_waiting_symbol.setPreferredSize(new Dimension(50, 20));
+		jcb_waiting_time.setSize(new Dimension(70, 20));
+		jcb_waiting_time.setMaximumSize(new Dimension(70, 20));
+		jcb_waiting_time.setPreferredSize(new Dimension(70, 20));
+		JLabel jlb_waiting = new JLabel("time gap:");
+		JTextField jtf_waiting = new JTextField();
+		jtf_waiting.setSize(new Dimension(30, 20));
+		jtf_waiting.setMaximumSize(new Dimension(30, 20));
+		jtf_waiting.setPreferredSize(new Dimension(30, 20));
+		hBox_waiting.add(jlb_waiting);
+		hBox_waiting.add(Box.createHorizontalStrut(5));
+		hBox_waiting.add(jcb_waiting_symbol);
+		hBox_waiting.add(Box.createHorizontalStrut(5));
+		hBox_waiting.add(jtf_waiting);
+		hBox_waiting.add(Box.createHorizontalStrut(5));
+		hBox_waiting.add(jcb_waiting_time);
+		vBox2.add(Box.createVerticalStrut(20));
+		vBox2.add(hBox_waiting);
+
+		tab.addTab("Advanced", null, vBox2, "Advanced setting");
+		Box vBox3 = Box.createVerticalBox();
+
+		vBox3.add(tab);
+		Box hBoxConfirm = Box.createHorizontalBox();
+		hBoxConfirm.add(jbConfirm);
+		hBoxConfirm.add(Box.createHorizontalStrut(20));
+		hBoxConfirm.add(jbConfirm);
+		hBoxConfirm.setAlignmentX(Component.CENTER_ALIGNMENT);
+		vBox3.add(hBoxConfirm);
+		// add vBox3 to dialog
+		dialog.add(vBox3);
+	}
+
+	public void setDialogForObjToObjOrder(String refObj, String targetObj){
+		JDialog dialog = new JDialog();
+		dialog.setTitle("Object order setting");
+		dialog.setSize(new Dimension(500,250));
+		dialog.setVisible(true);
+		dialog.setLocationRelativeTo(null);  // set to the center of the screen
+
+		JTabbedPane tab = new JTabbedPane();
+		Box vBox = Box.createVerticalBox();
+		Box infoBox = Box.createHorizontalBox();
+
+		JButton jb1 = new JButton(refObj);
+		jb1.setEnabled(false);
+		JButton jb2 = new JButton(targetObj);
+		jb2.setEnabled(false);
+		Box hBox1 = Box.createHorizontalBox();
+
+		JComboBox<String> jcb = new JComboBox<String>();
+		jcb.addItem("response");
+		jcb.addItem("precedence");
+		jcb.addItem("----------------");
+		jcb.addItem("not response");
+		jcb.addItem("not precedence");
 		jcb.setSize(new Dimension(120,20));
 		jcb.setMaximumSize(new Dimension(120,20));
 		jcb.setPreferredSize(new Dimension(120,20));

@@ -68,7 +68,7 @@ public class EditorPalette extends JPanel
 	{
 		setBackground(Color.WHITE);
 		setSize(30,100);
-		setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
+		setLayout(new FlowLayout(FlowLayout.LEADING, 25, 5));
 
 		// Clears the current selection when the background is clicked
 		addMouseListener(new MouseListener()
@@ -243,7 +243,7 @@ public class EditorPalette extends JPanel
 	 * @param width
 	 * @param height
 	 * @param value
-	 * @param tye
+	 * @param type
 	 */
 	public void addTemplate(final String name, ImageIcon icon, String style,
 			int width, int height, Object value, String type)

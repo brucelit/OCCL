@@ -67,7 +67,7 @@ import javax.swing.SortOrder;
             root.setBackground(new Color(100, 100, 100));
             root.setLayout(new BorderLayout());
 
-            Object [] title = {"Event Id","Activity", "Object(case identifier)", "Details"};
+            Object [] title = {"Event Id","Activity", "Object(case identifier)", "Diagnosis"};
 
             Object [] data = {};
 

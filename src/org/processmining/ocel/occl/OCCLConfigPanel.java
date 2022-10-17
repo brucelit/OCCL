@@ -33,12 +33,8 @@ import org.processmining.ocel.ocelobjects.OcelEventLog;
 
 import com.fluxicon.slickerbox.factory.SlickerFactory;
 import com.mxgraph.examples.swing.editor.EditorPalette;
-import com.mxgraph.examples.swing.editor.GraphEditor;
-import com.mxgraph.examples.swing.editor.GraphEditor.CustomGraph;
 import com.mxgraph.examples.swing.editor.MiddleWare;
 import com.mxgraph.swing.util.mxGraphTransferable;
-import com.mxgraph.swing.util.mxSwingConstants;
-import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventObject;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
@@ -116,7 +112,7 @@ public class OCCLConfigPanel extends RoundedPanel {
 					Object cell = t.getCells()[0];
 
 					if (graph.getModel().isEdge(cell)) {
-						((CustomGraph) graph).setEdgeTemplate(cell);
+						((GraphEditor.CustomGraph) graph).setEdgeTemplate(cell);
 					}
 				}
 			}
@@ -125,19 +121,11 @@ public class OCCLConfigPanel extends RoundedPanel {
 		// Adds some template cells for dropping into the graph
 		objectPalette
 				.addTemplate(
-						"Object entity",
-						new ImageIcon(
-								GraphEditor.class
-										.getResource("/com/mxgraph/examples/swing/images/entity1.png")),
-						"image;verticalAlign=middle;align=center;image=/com/mxgraph/examples/swing/images/entity1.png", ((int) Math.round(pageFormat.getHeight() * pageScale /20)), ((int) Math.round(pageFormat.getHeight() * pageScale /20)), null, "objEntity");
-		objectPalette
-				.addTemplate(
 						"Identifier",
 						new ImageIcon(
 								GraphEditor.class
 										.getResource("/com/mxgraph/examples/swing/images/actid.png")),
 						"image;image=/com/mxgraph/examples/swing/images/activity_id.png", ((int) Math.round(pageFormat.getHeight() * pageScale /20)), ((int) Math.round(pageFormat.getHeight() * pageScale /20)), null, "identifier");
-
 		objectPalette
 				.addTemplate(
 						"Object period",
