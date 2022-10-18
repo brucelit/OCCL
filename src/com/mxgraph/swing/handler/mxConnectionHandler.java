@@ -816,34 +816,57 @@ public class mxConnectionHandler extends mxMouseAdapter
 						{
 							graphComponent.getGraph().setSelectionCell(cell);
 							if (targetPortType.equals("refObjForAct") || refPortType.equals("refObjForAct")){					// set edge style
-									connType ct = connType.connObjToActRef;
 									((mxCell) cell).setStyle("doubleEdge");
 								}
 							else if (targetPortType.equals("timeRef") || refPortType.equals("timeRef")){					// set edge style
-								connType ct = connType.connTimeRef;
 								((mxCell) cell).setStyle("timeRefEdge");
 							}
 							else if (targetPortType.equals("objRef") || refPortType.equals("objRef")){					// set edge style
-								connType ct = connType.connObjToObjCard;
 								((mxCell) cell).setStyle("doubleEdge");
 							}
 
 							// this is the before/after connection type
-							else if ((targetPortType.equals("portTypeActBefore") && refPortType.equals("portTypeActAfter"))
-							|| (targetPortType.equals("portTypeActAfter") && refPortType.equals("portTypeActBefore"))){
-								connType ct = connType.connBeforeAfter;
+							else if (targetPortType.equals("portTypeActBefore") && refPortType.equals("portTypeActAfter")){
 								((mxCell) cell).setStyle("beforeAfterEdge");
 							}
+
+							// this is the before/after connection type
+							else if (targetPortType.equals("portTypeActAfter") && refPortType.equals("portTypeActBefore")){
+								((mxCell) cell).setStyle("beforeAfterEdge");
+							}
+
 
 							// this is the activity to object id type connection type
 							else if ((targetPortType.equals("actToObjRef") && refPortType.equals("objIdPort"))
 									|| (targetPortType.equals("objIdPort") && refPortType.equals("actToObjRef"))){
-								connType ct = connType.connActToObjId;
 								((mxCell) cell).setStyle("doubleEdge");
 								((mxCell) cell).setType("connActToObjId");
 							}
-							else if (refPortType.equals("portActRef") && targetPortType.equals("portActRef")) {
-								connType ct = connType.connActToObjId;
+							else if (refPortType.equals("portTypeObjBefore") && targetPortType.equals("portTypeObjAfter")) {
+								((mxCell) cell).setStyle("doubleEdge");
+								((mxCell) cell).setType("connActToObjId");
+							}
+							else if (refPortType.equals("portTypeActRef") && targetPortType.equals("portTypeObjRef")) {
+								((mxCell) cell).setStyle("doubleEdge");
+								((mxCell) cell).setType("connActToObjId");
+							}
+							else if (refPortType.equals("portTypeObjRef") && targetPortType.equals("portTypeActRef")) {
+								((mxCell) cell).setStyle("doubleEdge");
+								((mxCell) cell).setType("connActToObjId");
+							}
+							else if (refPortType.equals("portTypeActRef") && targetPortType.equals("portTypeObjtoActIdRef")) {
+								((mxCell) cell).setStyle("doubleEdge");
+								((mxCell) cell).setType("connActToObjId");
+							}
+							else if (refPortType.equals("portTypeObjtoActIdRef") && targetPortType.equals("portTypeActRef")) {
+								((mxCell) cell).setStyle("doubleEdge");
+								((mxCell) cell).setType("connActToObjId");
+							}
+							else if (refPortType.equals("portTypeObjAfter") && targetPortType.equals("portTypeObjBefore")) {
+								((mxCell) cell).setStyle("doubleEdge");
+								((mxCell) cell).setType("connActToObjId");
+							}
+							else if (refPortType.equals("portTypeObjRef") && targetPortType.equals("portTypeObjRef")) {
 								((mxCell) cell).setStyle("doubleEdge");
 								((mxCell) cell).setType("connActToObjId");
 							}
@@ -872,16 +895,59 @@ public class mxConnectionHandler extends mxMouseAdapter
 							setDialogForObjToObjOrder(refParentValue, targetParentValue);
 						}
 
-						// act to act state ordering
-						else if ((refPortType.equals("portTypeActBefore") && targetPortType.equals("portTypeActAfter"))
-								|| refPortType.equals("portTypeActAfter") && targetPortType.equals("portTypeActBefore")) {
+						// obj to obj state ordering
+						else if (refPortType.equals("portTypeObjRef") && targetPortType.equals("portTypeObjRef")) {
 							// set up a dialog for the activity ordering relation
 							mw.refParentValue = refParentValue;
 							mw.targetParentValue = targetParentValue;
+							mw.connType = "objStateToStateStatic";
+							setDialogForObjToObjStatic(refParentValue, targetParentValue);
+						}
+
+						// act to act ordering
+						else if (refPortType.equals("portTypeActBefore") && targetPortType.equals("portTypeActAfter")) {
+							// set up a dialog for the activity ordering relation
+							mw.secondAct = refParentValue;
+							mw.firstAct = targetParentValue;
 							mw.connType = "actToActOrder";
 							setDialogForActToActOrder(refParentValue, targetParentValue);
 						}
-
+						else if (refPortType.equals("portTypeActAfter") && targetPortType.equals("portTypeActBefore")) {
+							// set up a dialog for the activity ordering relation
+							mw.firstAct = refParentValue;
+							mw.secondAct = targetParentValue;
+							mw.connType = "actToActOrder";
+							setDialogForActToActOrder(refParentValue, targetParentValue);
+						}
+						// act to obj reference
+						else if (refPortType.equals("portTypeActRef") && targetPortType.equals("portTypeObjtoActIdRef")) {
+							// set up a dialog for the activity ordering relation
+//							mw.refParentValue = refParentValue;
+//							mw.targetParentValue = targetParentValue;
+							mw.refAct = refParentValue;
+							mw.actRefObj = targetParentValue;
+						}
+						else if (refPortType.equals("portTypeObjtoActIdRef") && targetPortType.equals("portTypeActRef")) {
+							// set up a dialog for the activity ordering relation
+//							mw.refParentValue = refParentValue;
+//							mw.targetParentValue = targetParentValue;
+							mw.refAct = targetParentValue;
+							mw.actRefObj = refParentValue;
+						}
+						else if (refPortType.equals("portTypeActRef") && targetPortType.equals("portTypeObjRef")) {
+							// set up a dialog for the activity ordering relation
+//							mw.refParentValue = refParentValue;
+//							mw.targetParentValue = targetParentValue;
+							mw.refAct = refParentValue;
+							mw.actRefObj =  (String) c1.getParent().getParent().getValue();
+						}
+						else if (refPortType.equals("portTypeObjRef") && targetPortType.equals("portTypeActRef")) {
+							// set up a dialog for the activity ordering relation
+//							mw.refParentValue = refParentValue;
+//							mw.targetParentValue = targetParentValue;
+							mw.refAct =  (String) c1.getParent().getParent().getValue();
+							mw.actRefObj = refParentValue;
+						}
 						// act to obj state ordering
 						else if ((refPortType.equals("portTypeActBefore") && targetPortType.equals("portTypeObjAfter"))
 								|| refPortType.equals("portTypeActAfter") && targetPortType.equals("portTypeObjBefore")) {
@@ -970,7 +1036,7 @@ public class mxConnectionHandler extends mxMouseAdapter
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dialog.dispose();
-				mw.objStateToStateRelation = (String) jcb.getSelectedItem();
+				mw.actToActOrder = (String) jcb.getSelectedItem();
 			}
 		});
 
@@ -1258,6 +1324,86 @@ public class mxConnectionHandler extends mxMouseAdapter
 		hBoxConfirm.add(jbConfirm);
 		hBoxConfirm.setAlignmentX(Component.CENTER_ALIGNMENT);
 		vBox3.add(hBoxConfirm);
+		// add vBox3 to dialog
+		dialog.add(vBox3);
+	}
+
+
+	public void setDialogForObjToObjStatic(String refObj, String targetObj){
+		JDialog dialog = new JDialog();
+		dialog.setTitle("Object coexistence setting");
+		dialog.setSize(new Dimension(500,250));
+		dialog.setVisible(true);
+		dialog.setLocationRelativeTo(null);  // set to the center of the screen
+
+		JTabbedPane tab = new JTabbedPane();
+		Box vBox = Box.createVerticalBox();
+		Box infoBox = Box.createHorizontalBox();
+
+		JButton jb1 = new JButton(refObj);
+		jb1.setEnabled(false);
+		JButton jb2 = new JButton(targetObj);
+		jb2.setEnabled(false);
+		Box hBox1 = Box.createHorizontalBox();
+
+		JComboBox<String> jcb = new JComboBox<String>();
+		jcb.addItem("co-birth");
+		jcb.addItem("co-death");
+		jcb.addItem("co-existence");
+
+		jcb.addItem("----------------");
+		jcb.addItem("not co-birth");
+		jcb.addItem("not co-death");
+		jcb.addItem("not co-existence");
+		jcb.setSize(new Dimension(120,20));
+		jcb.setMaximumSize(new Dimension(120,20));
+		jcb.setPreferredSize(new Dimension(120,20));
+
+		hBox1.add(jcb);
+		hBox1.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		// info box that contain two object
+		infoBox.add(jb1);
+
+		JLabel jl1 = new JLabel("———————————");
+		jl1.setSize(new Dimension(140,20));
+		jl1.setMinimumSize(new Dimension(140,20));
+		jl1.setMaximumSize(new Dimension(140,20));
+		jl1.setPreferredSize(new Dimension(140,20));
+		infoBox.add(jl1);
+		infoBox.add(jb2);
+
+		// add a confirm button
+		JButton jbConfirm = new JButton("Confirm");
+		jbConfirm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mw.objToObjStaticRelation = (String)jcb.getSelectedItem();
+				dialog.dispose();
+			}
+		});
+
+		// add a cancel button
+		JButton jbCancel = new JButton("Cancel");
+		jbCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dialog.dispose();
+			}
+		});
+		vBox.add(Box.createVerticalStrut(10));
+		vBox.add(hBox1);
+		vBox.add(infoBox);
+
+		Box vBox3 = Box.createVerticalBox();
+		vBox3.add(vBox);
+		Box hBoxConfirm = Box.createHorizontalBox();
+		hBoxConfirm.add(jbConfirm);
+		hBoxConfirm.add(Box.createHorizontalStrut(20));
+		hBoxConfirm.add(jbConfirm);
+		hBoxConfirm.setAlignmentX(Component.CENTER_ALIGNMENT);
+		vBox3.add(hBoxConfirm);
+
 		// add vBox3 to dialog
 		dialog.add(vBox3);
 	}

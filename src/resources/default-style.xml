@@ -91,7 +91,7 @@
 		<add as="fillColor" value="#E6A23C"/>
 	</add>
 	<add as="group">
-		<add as="verticalAlign" value="top"/>
+		<add as="verticalAlign" value="center"/>
 		<add as="dashed" value="1"/>
 		<add as="opacity" value="50"/>
 	</add>

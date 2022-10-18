@@ -116,15 +116,11 @@ public class ObjToObjOrderChecker {
                 XAttribute eventId = new XAttributeLiteralImpl("event_id", ocelEvent.id);
                 XAttribute conceptName = new XAttributeLiteralImpl("concept:name", ocelEvent.activity);
                 XAttribute timeTimestamp = new XAttributeTimestampImpl("time:timestamp", ocelEvent.timestamp);
-                System.out.println(ocelEvent.relatedObjects);
                 Set<String> objTypeSet = new HashSet<>();
                 for (OcelObject s : ocelEvent.relatedObjects) {
                     objTypeSet.add(s.objectType.name);
                 }
-                System.out.println(objTypeSet);
-
                 if (objTypeSet.contains(targObj)){
-                    System.out.println(true);
                     vs.appendViolatedRule(eventId.toString(), conceptName.toString(), refObj, "");
 
                 }

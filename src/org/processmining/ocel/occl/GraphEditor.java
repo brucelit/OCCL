@@ -63,7 +63,6 @@ public class GraphEditor extends BasicGraphEditor
 	protected static  List<String> objectTypes;
 	
 	protected static List<String>  timeSymbol = Arrays.asList(
-			"",
 			">=",
 			">",
 			"<=",
@@ -230,6 +229,7 @@ public class GraphEditor extends BasicGraphEditor
 			graph.getModel().beginUpdate();
 			try {
 				if (((mxCell) cellToAdd[0]).getType().equals("objState")) {
+					((mxCell) cellToAdd[0]).setValue(((mxCell) cellToAdd[0]).getParent().getValue());
 					// add port to the element
 					ArrayList<mxCell> ports = getStatePorts();
 					graph.addCell(ports.get(0), cellToAdd[0]);
@@ -262,10 +262,10 @@ public class GraphEditor extends BasicGraphEditor
 					hBoxAgg.add(jbAgg);
 					hBoxAgg.add(Box.createHorizontalStrut(10));
 					JComboBox<String> jcb_symbol = new JComboBox<String>();
+					jcb_symbol.addItem("=");
 					for (String ts: timeSymbol) {
 						jcb_symbol.addItem(ts);
 					}
-					jcb_symbol.addItem("=");
 					hBoxAgg.add(jcb_symbol);
 					hBoxAgg.add(Box.createHorizontalStrut(10));
 					JTextField jtf_value = new JTextField();
@@ -289,10 +289,11 @@ public class GraphEditor extends BasicGraphEditor
 					hBoxAgg2.add(jbAgg2);
 					hBoxAgg2.add(Box.createHorizontalStrut(10));
 					JComboBox<String> jcb_symbol2 = new JComboBox<String>();
+					jcb_symbol2.addItem("=");
+
 					for (String ts: timeSymbol) {
 						jcb_symbol2.addItem(ts);
 					}
-					jcb_symbol2.addItem("=");
 					hBoxAgg2.add(jcb_symbol2);
 					hBoxAgg2.add(Box.createHorizontalStrut(10));
 					JTextField jtf_value2 = new JTextField();
@@ -316,6 +317,27 @@ public class GraphEditor extends BasicGraphEditor
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							graph.getModel().beginUpdate();
+							if (!jtf_value.getText().equals("")){
+								mw.objNum.add(Integer.valueOf(jtf_value.getText()));
+								String objCountSymbol = jcb_symbol.getSelectedItem().toString();
+
+								if (objCountSymbol.equals("=")){
+									mw.objCount = "equalTo";
+								}
+								else if (objCountSymbol.equals("<")){
+									mw.objCount = "smallerThan";
+								}
+								else if (objCountSymbol.equals("<=")){
+									mw.objCount = "smallerOrEqualTo";
+								}
+								else if (objCountSymbol.equals(">")){
+									mw.objCount = "greaterThan";
+								}
+								else if (objCountSymbol.equals(">=")){
+									mw.objCount = "greaterOrEqualTo";
+								}
+
+							}
 							dialog.dispose();
 							graph.getModel().endUpdate();
 							graph.refresh();
@@ -349,6 +371,8 @@ public class GraphEditor extends BasicGraphEditor
 				}
 				else if (((mxCell) cellToAdd[0]).getType().equals("identifier")) {
 					// add port to the element
+					((mxCell) cellToAdd[0]).setValue(((mxCell) cellToAdd[0]).getParent().getValue());
+
 					ArrayList<mxCell> ports = getIdentifierPorts();
 					graph.addCell(ports.get(0), cellToAdd[0]);
 					mw.updatePortParent(ports.get(0).getId(), (mxCell) cellToAdd[0]);
@@ -836,7 +860,7 @@ public class GraphEditor extends BasicGraphEditor
 			geo1.setRelative(true);
 
 			mxCell port1 = new mxCell(null, geo1,
-					"beforePort;direction=west","beforePort", true);
+					"beforePort;direction=west","portTypeObjBefore", true);
 			port1.setVertex(true);
 
 			mxGeometry geo2 = new mxGeometry(1.0, 0.5, PORT_DIAMETER,
@@ -845,7 +869,7 @@ public class GraphEditor extends BasicGraphEditor
 			geo2.setRelative(true);
 
 			mxCell port2 = new mxCell(null, geo2,
-					"afterPort;direction=east","afterPort", true);
+					"afterPort;direction=east","portTypeObjAfter", true);
 			port2.setVertex(true);
 
 			mxGeometry geo3 = new mxGeometry(0.5, 0, PORT_DIAMETER,
@@ -854,7 +878,7 @@ public class GraphEditor extends BasicGraphEditor
 			geo3.setRelative(true);
 
 			mxCell port3 = new mxCell(null, geo3,
-					"refPort;perimter=ellipsePerimeter","stateRef", true);
+					"refPort;perimter=ellipsePerimeter","portTypeObjRef", true);
 			port3.setVertex(true);
 
 			mxGeometry geo4 = new mxGeometry(0.5, 1, PORT_DIAMETER,
@@ -863,7 +887,7 @@ public class GraphEditor extends BasicGraphEditor
 			geo4.setRelative(true);
 
 			mxCell port4 = new mxCell(null, geo4,
-					"timeRefPort","stateDuring", true);
+					"timeRefPort","", true);
 			port4.setVertex(true);
 			ports.add(port1);
 			ports.add(port2);
@@ -886,7 +910,7 @@ public class GraphEditor extends BasicGraphEditor
 			geo1.setOffset(new mxPoint(-PORT_RADIUS, -PORT_RADIUS));
 			geo1.setRelative(true);
 			mxCell port1 = new mxCell(null, geo1,
-					"actRefPort","portActRef", true);
+					"actRefPort","portTypeObjtoActIdRef", true);
 			port1.setVertex(true);
 			ports.add(port1);
 
@@ -924,7 +948,7 @@ public class GraphEditor extends BasicGraphEditor
 			geo3.setRelative(true);
 
 			mxCell port3 = new mxCell(null, geo3,
-					"refPort;perimter=ellipsePerimeter","portActRef", true);
+					"refPort;perimter=ellipsePerimeter","portTypeActRef", true);
 			port3.setVertex(true);
 
 			mxGeometry geo4 = new mxGeometry(0.52, 0.95, PORT_DIAMETER,
@@ -933,7 +957,7 @@ public class GraphEditor extends BasicGraphEditor
 			geo4.setRelative(true);
 
 			mxCell port4 = new mxCell(null, geo4,
-					"timeRefPort","actTime", true);
+					"timeRefPort","", true);
 			port4.setVertex(true);
 			ports.add(port1);
 			ports.add(port2);

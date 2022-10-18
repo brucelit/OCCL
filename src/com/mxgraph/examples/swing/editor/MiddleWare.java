@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGraphModel;
 
 public class MiddleWare {
 
@@ -19,6 +20,14 @@ public class MiddleWare {
     public ArrayList connLst = new ArrayList();
 
     public String connType = "";
+    public ArrayList<Integer> objNum = new ArrayList<>();
+    public String refActOrderObj = "";
+
+    public String firstAct = "";
+
+    public String secondAct = "";
+    public String actToActOrder;
+    public String objCount = "";
 
     public HashMap getPortParent() {
         return portParent;
@@ -38,7 +47,18 @@ public class MiddleWare {
     public String refParentValue;
 
     public String objStateToStateRelation;
+
+    public String objToObjStaticRelation;
+
+    public String refAct = ""; // for obj to obj coexistence reference
+
+
+    public Integer refObjNum;
+
+    public Integer targetObjNum;
+
     /**
+     *
      constructor method
     **/
     private MiddleWare(){

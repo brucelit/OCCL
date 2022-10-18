@@ -48,21 +48,99 @@ public class ConstraintEditor {
 		String orderRelation = mw.actOrderType;
 
 		String checkType = "";
-		if (!orderRelation.equals(""))
-		{
+		if (mw.connType.equals("objStateToStateStatic")){
+			checkType = "objToObjCoExistence";
+		}
+		else if (mw.connType.equals("actToActOrder")){
 			checkType = "actOrder";
 		}
+		else if (mw.objNum.size() == 1){
+			checkType = "singleObjAggregation";
+		}
 //		else if (!singleActRelation.equals(""))
+		ViolatedSet v1;
 
 		switch (checkType){
 			case "actOrder":
+				System.out.println("use this one to check");
 				XLog log = flatten(ocel, mw.actRefObj);
-				OCELViolationChecker violationChecker = new OCELViolationChecker(log,"items", firstAct, secondAct, orderRelation);
-				ViolatedSet v1 = violationChecker.getDirectAfterRelation(context);
+				OCELViolationChecker violationChecker = new OCELViolationChecker(
+						log,
+						mw.actRefObj,
+						mw.firstAct,
+						mw.secondAct,
+						mw.actToActOrder);
+				v1 = violationChecker.checkOrderRelation(context);
 				return v1;
-				// return the violation object as return
-			//			case "unary response":
-//				return getUnaryResponseRelation(context);
+			case "objToObjCoExistence":
+				ObjToObjStaticChecker oosc;
+				if (mw.objToObjStaticRelation.equals("not co-existence")){
+					oosc = new ObjToObjStaticChecker(
+							ocel,
+							mw.refParentValue,
+							mw.targetParentValue,
+							mw.objToObjStaticRelation);}
+				else if (mw.objToObjStaticRelation.equals("co-birth") ||
+						mw.objToObjStaticRelation.equals("co-death") ||
+						mw.objToObjStaticRelation.equals("not co-birth") ||
+						mw.objToObjStaticRelation.equals("not co-death")){
+					System.out.println(mw.refParentValue);
+					System.out.println(mw.targetParentValue);
+					XLog log1 = flatten(ocel, mw.refParentValue);
+					XLog log2 = flatten(ocel, mw.targetParentValue);
+					oosc = new ObjToObjStaticChecker(
+							log1,
+							log2,
+							ocel,
+							mw.refParentValue,
+							mw.targetParentValue,
+							mw.objToObjStaticRelation);
+				}
+				else if ((mw.objToObjStaticRelation.equals("co-existence") && mw.refAct.equals("")
+						)){
+					oosc = new ObjToObjStaticChecker(
+							ocel,
+							mw.refParentValue,
+							mw.targetParentValue,
+							mw.objNum.get(0),
+							mw.objNum.get(1),
+							mw.objToObjStaticRelation);
+				}
+				else{
+					oosc = new ObjToObjStaticChecker(
+							ocel,
+							mw.refParentValue,
+							mw.targetParentValue,
+							mw.objNum.get(0),
+							mw.objNum.get(1),
+							mw.refAct,
+							mw.objToObjStaticRelation);
+				}
+				return oosc.checkObjToObjStatic(context);
+
+			case "singleObjAggregation":
+				System.out.println("enter this plug in");
+				SingleObjViolationChecker sovc;
+				if (mw.refAct.equals("")){
+					sovc = new SingleObjViolationChecker(
+							ocel,
+							mw.actRefObj,
+							mw.objNum.get(0),
+							"ObjectCountWithoutRefAct",
+							mw.objCount
+					);
+				}
+				else{
+					sovc = new SingleObjViolationChecker(ocel,
+							mw.actRefObj,
+							mw.objNum.get(0),
+							mw.refAct,
+							"ObjectCountWithRefAct",
+							mw.objCount
+					);
+				}
+				return sovc.checkObjCount(context);
+
 			default:
 				ObjToObjOrderChecker o1 = new ObjToObjOrderChecker(
 						ocel,
@@ -71,20 +149,7 @@ public class ConstraintEditor {
 						20,
 						"objStateToStateResponse",
 						"greaterOrEqualTo");
-//				XLog log1= flatten(ocel, "products");
-//				XLog log2= flatten(ocel, "orders");
-//
-//				ObjToObjRelationChecker o1 = new ObjToObjRelationChecker(
-//						log1,
-//						log2,
-//						ocel,
-//						"items",
-//						"orders",
-//						"coBirth");
-				//				SingleActChecker s1 = new SingleActChecker(log1,"pick item");
-//				ViolatedSet v = s1.checkWaitingTimeForAct(context);
-//				ObjToObjRelationChecker objViolationChecker = new ObjToObjRelationChecker(ocel,"items", 1, "pick item", "ObjectCountWithoutRefAct", "greaterThan");
-//				ViolatedSet v2 = objViolationChecker.checkObjCount(context);
+
 				return o1.getObjOrderWithRefAct(context);
 		}
 	}
